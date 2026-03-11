@@ -89,7 +89,7 @@ const subjects: Subject[] = [
   }
 ];
 
-const CustomCursor = () => {
+const CustomCursor = ({ isHovering }: { isHovering: boolean }) => {
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -109,7 +109,12 @@ const CustomCursor = () => {
   return (
     <>
       <motion.div
-        className="fixed top-0 left-0 w-10 h-10 border-2 border-tangerine rounded-full z-[10000] pointer-events-none mix-blend-difference"
+        className="fixed top-0 left-0 border-2 border-tangerine rounded-full z-[10000] pointer-events-none"
+        animate={{
+          width: isHovering ? 60 : 40,
+          height: isHovering ? 60 : 40,
+          backgroundColor: isHovering ? "rgba(236, 150, 45, 0.1)" : "rgba(236, 150, 45, 0)",
+        }}
         style={{
           x: cursorX,
           y: cursorY,
@@ -118,7 +123,10 @@ const CustomCursor = () => {
         }}
       />
       <motion.div
-        className="fixed top-0 left-0 w-2 h-2 bg-tangerine rounded-full z-[10000] pointer-events-none mix-blend-difference"
+        className="fixed top-0 left-0 w-2 h-2 bg-tangerine rounded-full z-[10000] pointer-events-none"
+        animate={{
+          scale: isHovering ? 0 : 1,
+        }}
         style={{
           x: mouseX,
           y: mouseY,
@@ -130,9 +138,38 @@ const CustomCursor = () => {
   );
 };
 
+const BackToTop = () => {
+  const [visible, setVisible] = useState(false);
+
+  useEffect(() => {
+    const toggleVisible = () => {
+      setVisible(window.scrollY > 500);
+    };
+    window.addEventListener("scroll", toggleVisible);
+    return () => window.removeEventListener("scroll", toggleVisible);
+  }, []);
+
+  return (
+    <AnimatePresence>
+      {visible && (
+        <motion.button
+          initial={{ x: 100, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          exit={{ x: 100, opacity: 0 }}
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="fixed bottom-8 right-8 z-[9998] brutalist-button bg-dark-alloy text-tangerine p-4 hover:bg-tangerine hover:text-dark-alloy transition-colors group"
+        >
+          <ArrowRight className="w-8 h-8 -rotate-90 group-hover:-translate-y-1 transition-transform" />
+        </motion.button>
+      )}
+    </AnimatePresence>
+  );
+};
+
 export default function App() {
   const [searchQuery, setSearchQuery] = useState("");
   const [hoveredSubject, setHoveredSubject] = useState<string | null>(null);
+  const [isHoveringInteractive, setIsHoveringInteractive] = useState(false);
   const [isDarkMode, setIsDarkMode] = useState(() => {
     if (typeof window !== 'undefined') {
       const saved = localStorage.getItem('theme');
@@ -159,15 +196,23 @@ export default function App() {
   }, [searchQuery]);
 
   return (
-    <div className="min-h-screen bg-cloud selection:bg-dark-alloy selection:text-tangerine font-sans text-dark-alloy overflow-x-hidden">
-      <CustomCursor />
+    <div 
+      className="min-h-screen bg-cloud selection:bg-dark-alloy selection:text-tangerine font-sans text-dark-alloy overflow-x-hidden"
+      onMouseEnter={() => setIsHoveringInteractive(false)}
+    >
+      <CustomCursor isHovering={isHoveringInteractive} />
+      <BackToTop />
       {/* Noise Overlay */}
       <div className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.04] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
 
       {/* Header */}
       <header className="sticky top-0 z-50 bg-tangerine border-b-4 border-dark-alloy">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div 
+            className="flex items-center gap-3"
+            onMouseEnter={() => setIsHoveringInteractive(true)}
+            onMouseLeave={() => setIsHoveringInteractive(false)}
+          >
             <div className="w-12 h-12 bg-dark-alloy flex items-center justify-center brutalist-shadow">
               <GraduationCap className="text-tangerine w-8 h-8" />
             </div>
@@ -178,6 +223,8 @@ export default function App() {
           </div>
           <button 
             onClick={() => setIsDarkMode(!isDarkMode)}
+            onMouseEnter={() => setIsHoveringInteractive(true)}
+            onMouseLeave={() => setIsHoveringInteractive(false)}
             className="w-12 h-12 bg-dark-alloy flex items-center justify-center brutalist-shadow hover:bg-cloud hover:text-dark-alloy transition-colors group"
             aria-label="Toggle Dark Mode"
           >
@@ -209,27 +256,47 @@ export default function App() {
               </div>
               
               <h1 className="font-display text-[clamp(4rem,12vw,9.5rem)] leading-[0.8] uppercase mb-12 tracking-tighter">
-                <span className="relative inline-block mb-6">
+                <motion.span 
+                  initial={{ y: 100, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.2, duration: 0.8, ease: "circOut" }}
+                  className="relative inline-block mb-6"
+                >
                   <span className="relative z-10 bg-dark-alloy text-cloud px-6 py-2 brutalist-border">BSIT</span>
                   <span className="absolute -inset-2 bg-tangerine -z-10 translate-x-3 translate-y-3" />
-                </span>
+                </motion.span>
                 <br />
-                <span className="relative inline-block">
+                <motion.span 
+                  initial={{ y: 100, opacity: 0 }}
+                  whileInView={{ y: 0, opacity: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.4, duration: 0.8, ease: "circOut" }}
+                  className="relative inline-block"
+                >
                   <span className="relative z-10 bg-tangerine px-6 py-2 brutalist-border text-dark-alloy">RESOURCES</span>
                   <span className="absolute -inset-2 bg-dark-alloy -z-10 translate-x-3 translate-y-3" />
-                </span>
+                </motion.span>
               </h1>
               
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-                <div className="bg-cloud brutalist-card rotate-1">
+                <motion.div 
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.6 }}
+                  className="bg-cloud brutalist-card rotate-1"
+                >
                   <p className="text-2xl md:text-3xl font-black leading-tight">
                     The ultimate vault for BSIT 2nd Semester. 
                     Zero fluff. Just pure academic power.
                   </p>
-                </div>
+                </motion.div>
                 <div className="flex flex-col gap-6">
                   <a 
                     href="#resources"
+                    onMouseEnter={() => setIsHoveringInteractive(true)}
+                    onMouseLeave={() => setIsHoveringInteractive(false)}
                     className="brutalist-button bg-tangerine text-dark-alloy px-10 py-6 font-display text-2xl uppercase flex items-center justify-center gap-4 hover:bg-dark-alloy hover:text-tangerine transition-all group"
                   >
                     Enter The Vault <ArrowRight className="w-8 h-8 group-hover:translate-x-2 transition-transform" />
@@ -270,6 +337,8 @@ export default function App() {
                     placeholder="SEARCH MODULES..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    onMouseEnter={() => setIsHoveringInteractive(true)}
+                    onMouseLeave={() => setIsHoveringInteractive(false)}
                     className="w-full md:w-80 brutalist-button bg-cloud pl-14 pr-4 py-4 font-mono font-black uppercase focus:outline-none focus:bg-tangerine transition-colors placeholder:text-dark-alloy/50"
                   />
                 </div>
@@ -339,6 +408,8 @@ export default function App() {
                           href={link.url}
                           target="_blank"
                           rel="noopener noreferrer"
+                          onMouseEnter={() => setIsHoveringInteractive(true)}
+                          onMouseLeave={() => setIsHoveringInteractive(false)}
                           className={`w-full brutalist-button p-4 flex items-center justify-between group/link transition-all ${
                             hoveredSubject === subject.id 
                               ? 'bg-dark-alloy text-tangerine hover:bg-cloud hover:text-dark-alloy' 
