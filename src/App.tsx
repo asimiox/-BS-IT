@@ -117,9 +117,10 @@ export default function App() {
           
           <div className="max-w-7xl mx-auto px-4 sm:px-8 relative">
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "circOut" }}
+              initial={{ opacity: 0, x: -100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: "backOut" }}
               className="max-w-5xl"
             >
               <div className="inline-flex items-center gap-2 bg-black text-lime-accent px-4 py-2 font-mono text-sm font-black uppercase mb-8 brutalist-shadow">
@@ -127,10 +128,14 @@ export default function App() {
               </div>
               
               <h1 className="font-display text-[clamp(4rem,12vw,9.5rem)] leading-[0.8] uppercase mb-12 tracking-tighter">
-                BSIT <br />
+                <span className="relative inline-block mb-6">
+                  <span className="relative z-10 bg-black text-white px-6 py-2 brutalist-border">BSIT</span>
+                  <span className="absolute -inset-2 bg-lime-accent -z-10 translate-x-3 translate-y-3" />
+                </span>
+                <br />
                 <span className="relative inline-block">
-                  <span className="relative z-10 bg-lime-accent px-4 py-1 brutalist-border">RESOURCES</span>
-                  <span className="absolute -inset-2 bg-black -z-10 translate-x-2 translate-y-2" />
+                  <span className="relative z-10 bg-lime-accent px-6 py-2 brutalist-border text-black">RESOURCES</span>
+                  <span className="absolute -inset-2 bg-black -z-10 translate-x-3 translate-y-3" />
                 </span>
               </h1>
               
@@ -160,7 +165,13 @@ export default function App() {
         {/* Resources Grid */}
         <section id="resources" className="py-32 bg-[#fdfdfd]">
           <div className="max-w-7xl mx-auto px-4 sm:px-8">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
+            <motion.div 
+              initial={{ opacity: 0, x: -100 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8"
+            >
               <div className="relative">
                 <h2 className="font-display text-7xl md:text-9xl uppercase tracking-tighter relative z-10 bg-black text-lime-accent px-8 py-4 inline-block brutalist-shadow -rotate-2">
                   Modules
@@ -171,16 +182,16 @@ export default function App() {
                   Click on the resource links to access the official Google Drive folders for each subject.
                 </p>
               </div>
-            </div>
+            </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
               {subjects.map((subject, index) => (
                 <motion.div
                   key={subject.id}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ delay: index * 0.05, type: "spring", stiffness: 100 }}
+                  transition={{ delay: index * 0.1, type: "spring", stiffness: 100 }}
                   className="brutalist-card brutalist-shadow-hover flex flex-col group bg-white"
                 >
                   <div className="flex justify-between items-center mb-8">
@@ -223,7 +234,7 @@ export default function App() {
           <div className="flex whitespace-nowrap animate-marquee">
             {[...Array(10)].map((_, i) => (
               <span key={i} className="font-display text-7xl text-black uppercase mx-12 flex items-center gap-6">
-                <span className="text-white">★</span> BSIT 2025-2029 <span className="text-white">★</span> HUB
+                <span className="text-white">★</span> BSIT SECOND SEMESTER <span className="text-white">★</span> HUB
               </span>
             ))}
           </div>
