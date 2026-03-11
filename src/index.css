@@ -6,12 +6,28 @@
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Space Grotesk", monospace;
   
-  --color-lime-accent: #BFFF00; /* Neo Brutalist Lime */
+  --color-tangerine: #EC962D;
+  --color-alloy: #838585;
+  --color-dark-alloy: var(--fg);
+  --color-cloud: var(--bg);
+  --cursor-size: 24px;
+}
+
+:root {
+  --bg: #F4F4F4;
+  --fg: #3F3232;
+  --shadow-rgb: 63, 50, 50;
+}
+
+.dark {
+  --bg: #121212;
+  --fg: #F4F4F4;
+  --shadow-rgb: 0, 0, 0;
 }
 
 @layer base {
   body {
-    @apply bg-[#fdfdfd] text-black font-sans antialiased;
+    @apply bg-cloud text-dark-alloy font-sans antialiased transition-colors duration-300;
   }
   
   /* Custom Brutalist Scrollbar */
@@ -19,48 +35,67 @@
     width: 14px;
   }
   ::-webkit-scrollbar-track {
-    background: white;
-    border-left: 3px solid black;
+    background: var(--bg);
+    border-left: 3px solid var(--fg);
   }
   ::-webkit-scrollbar-thumb {
-    background: black;
-    border: 3px solid white;
+    background: var(--fg);
+    border: 3px solid var(--bg);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #BFFF00;
+    background: #EC962D;
+  }
+
+  * {
+    cursor: none !important;
   }
 }
 
 @utility brutalist-border {
-  border: 5px solid black;
+  border: 5px solid var(--fg);
 }
 
 @utility brutalist-shadow {
-  box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
+  box-shadow: 10px 10px 0px 0px rgba(var(--shadow-rgb), 1);
 }
 
 @utility brutalist-shadow-hover {
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
   &:hover {
     transform: translate(-4px, -4px);
-    box-shadow: 14px 14px 0px 0px rgba(0,0,0,1);
+    box-shadow: 14px 14px 0px 0px rgba(var(--shadow-rgb), 1);
   }
 }
 
 @utility brutalist-card {
-  border: 5px solid black;
-  box-shadow: 10px 10px 0px 0px rgba(0,0,0,1);
-  background-color: white;
+  border: 5px solid var(--fg);
+  box-shadow: 10px 10px 0px 0px rgba(var(--shadow-rgb), 1);
+  background-color: var(--bg);
   padding: 2rem;
 }
 
 @utility brutalist-button {
-  border: 3px solid black;
-  box-shadow: 4px 4px 0px 0px rgba(0,0,0,1);
+  border: 3px solid var(--fg);
+  box-shadow: 4px 4px 0px 0px rgba(var(--shadow-rgb), 1);
   transition: all 0.1s ease;
   &:active {
     transform: translate(2px, 2px);
-    box-shadow: 0px 0px 0px 0px rgba(0,0,0,1);
+    box-shadow: 0px 0px 0px 0px rgba(var(--shadow-rgb), 1);
   }
+}
+
+@utility glass-panel {
+  background: rgba(var(--shadow-rgb), 0.1);
+  backdrop-filter: blur(10px);
+  border: 2px solid var(--fg);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0); }
+  50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
 
