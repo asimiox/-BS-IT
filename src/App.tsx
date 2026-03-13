@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "motion/react";
-import { ExternalLink, BookOpen, GraduationCap, ArrowRight, Heart, Search, Sparkles, Zap, Moon, Sun } from "lucide-react";
+import { ExternalLink, BookOpen, GraduationCap, ArrowRight, Heart, Search, Sparkles, Zap, Moon, Sun, Users, MessageCircle } from "lucide-react";
 
 interface ResourceLink {
   label: string;
@@ -218,22 +218,35 @@ export default function App() {
             </div>
             <span className="font-display text-3xl tracking-tighter uppercase leading-none">BSIT HUB</span>
           </div>
-          <div className="font-mono text-sm font-black uppercase hidden sm:block bg-dark-alloy text-tangerine px-4 py-1 brutalist-shadow">
+          <div className="font-mono text-sm font-black uppercase hidden lg:block bg-dark-alloy text-tangerine px-4 py-1 brutalist-shadow">
             Batch 2025 — 2029
           </div>
-          <button 
-            onClick={() => setIsDarkMode(!isDarkMode)}
-            onMouseEnter={() => setIsHoveringInteractive(true)}
-            onMouseLeave={() => setIsHoveringInteractive(false)}
-            className="w-12 h-12 bg-dark-alloy flex items-center justify-center brutalist-shadow hover:bg-cloud hover:text-dark-alloy transition-colors group"
-            aria-label="Toggle Dark Mode"
-          >
-            {isDarkMode ? (
-              <Sun className="text-tangerine w-6 h-6 group-hover:rotate-90 transition-transform" />
-            ) : (
-              <Moon className="text-tangerine w-6 h-6 group-hover:-rotate-12 transition-transform" />
-            )}
-          </button>
+          <div className="flex items-center gap-4">
+            <a 
+              href="https://chat.whatsapp.com/CN29l48FI3UCzU8vM7y02Z"
+              target="_blank"
+              rel="noopener noreferrer"
+              onMouseEnter={() => setIsHoveringInteractive(true)}
+              onMouseLeave={() => setIsHoveringInteractive(false)}
+              className="hidden md:flex items-center gap-2 bg-dark-alloy text-tangerine px-4 py-2 font-mono text-xs font-black uppercase brutalist-shadow hover:bg-cloud hover:text-dark-alloy transition-colors"
+            >
+              <MessageCircle className="w-4 h-4" />
+              Join Community
+            </a>
+            <button 
+              onClick={() => setIsDarkMode(!isDarkMode)}
+              onMouseEnter={() => setIsHoveringInteractive(true)}
+              onMouseLeave={() => setIsHoveringInteractive(false)}
+              className="w-12 h-12 bg-dark-alloy flex items-center justify-center brutalist-shadow hover:bg-cloud hover:text-dark-alloy transition-colors group"
+              aria-label="Toggle Dark Mode"
+            >
+              {isDarkMode ? (
+                <Sun className="text-tangerine w-6 h-6 group-hover:rotate-90 transition-transform" />
+              ) : (
+                <Moon className="text-tangerine w-6 h-6 group-hover:-rotate-12 transition-transform" />
+              )}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -300,6 +313,16 @@ export default function App() {
                     className="brutalist-button bg-tangerine text-dark-alloy px-10 py-6 font-display text-2xl uppercase flex items-center justify-center gap-4 hover:bg-dark-alloy hover:text-tangerine transition-all group"
                   >
                     Enter The Vault <ArrowRight className="w-8 h-8 group-hover:translate-x-2 transition-transform" />
+                  </a>
+                  <a 
+                    href="https://chat.whatsapp.com/CN29l48FI3UCzU8vM7y02Z"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onMouseEnter={() => setIsHoveringInteractive(true)}
+                    onMouseLeave={() => setIsHoveringInteractive(false)}
+                    className="brutalist-button bg-cloud text-dark-alloy px-10 py-6 font-display text-2xl uppercase flex items-center justify-center gap-4 hover:bg-tangerine transition-all group"
+                  >
+                    Join Community <MessageCircle className="w-8 h-8 group-hover:rotate-12 transition-transform" />
                   </a>
                   <div className="bg-dark-alloy text-tangerine p-4 font-mono text-sm font-bold uppercase brutalist-shadow text-center">
                     Scroll down to explore course modules.
@@ -437,6 +460,70 @@ export default function App() {
                   </div>
                 </motion.div>
               )}
+            </div>
+          </div>
+        </section>
+
+        {/* Community Section */}
+        <section className="py-32 bg-dark-alloy relative overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#EC962D_1px,transparent_1px),linear-gradient(to_bottom,#EC962D_1px,transparent_1px)] bg-[size:40px_40px] opacity-[0.05]" />
+          <div className="max-w-7xl mx-auto px-4 sm:px-8 relative">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+              >
+                <h2 className="font-display text-6xl md:text-8xl uppercase tracking-tighter text-tangerine mb-8 leading-none">
+                  The IT <br />
+                  <span className="text-cloud">Community</span>
+                </h2>
+                <p className="text-cloud font-mono text-xl md:text-2xl font-black uppercase leading-tight mb-12">
+                  Connect with fellow students, share resources, and stay updated with the latest batch news.
+                </p>
+                <a 
+                  href="https://chat.whatsapp.com/CN29l48FI3UCzU8vM7y02Z"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onMouseEnter={() => setIsHoveringInteractive(true)}
+                  onMouseLeave={() => setIsHoveringInteractive(false)}
+                  className="brutalist-button bg-tangerine text-dark-alloy px-12 py-8 font-display text-3xl uppercase inline-flex items-center gap-6 hover:bg-cloud transition-all group"
+                >
+                  Join WhatsApp <MessageCircle className="w-10 h-10 group-hover:scale-125 transition-transform" />
+                </a>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, scale: 0.8 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+                className="relative"
+              >
+                <div className="brutalist-card bg-tangerine p-12 rotate-3 relative z-10">
+                  <div className="flex items-center gap-6 mb-8">
+                    <div className="w-20 h-20 bg-dark-alloy flex items-center justify-center brutalist-shadow">
+                      <Users className="text-tangerine w-12 h-12" />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-4xl uppercase text-dark-alloy leading-none">BSIT Batch</h3>
+                      <p className="font-mono font-black text-dark-alloy/70">2025 — 2029</p>
+                    </div>
+                  </div>
+                  <div className="space-y-4">
+                    <div className="bg-dark-alloy/10 p-4 brutalist-border font-mono text-sm font-black uppercase">
+                      ● Real-time Updates
+                    </div>
+                    <div className="bg-dark-alloy/10 p-4 brutalist-border font-mono text-sm font-black uppercase">
+                      ● Peer Support
+                    </div>
+                    <div className="bg-dark-alloy/10 p-4 brutalist-border font-mono text-sm font-black uppercase">
+                      ● Resource Sharing
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute -inset-4 bg-cloud -z-10 -rotate-2 brutalist-border" />
+              </motion.div>
             </div>
           </div>
         </section>
